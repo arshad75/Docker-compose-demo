@@ -9,15 +9,15 @@ node{
         }
    }
    
-   //stage('Build'){    
-     //       def ip="`curl http://169.254.169.254/latest/meta-data/public-ipv4`"
-       //     def kompose= "kompose convert -f /home/devops/Docker-compose-demo/kompose.yaml"
-         //   def rmyaml= "rm -rf *.yaml"
-           // sshagent(['k8_master']) {
-//              sh "ssh -o StrictHostKeyChecking=no devops@$ip ${rmyaml}"
-  //            sh "ssh -o StrictHostKeyChecking=no devops@$ip ${kompose}"
-    //        }
-   //}
+   stage('Build'){    
+            def ip="`curl http://169.254.169.254/latest/meta-data/public-ipv4`"
+            def kompose= "kompose convert -f /home/devops/Docker-compose-demo/kompose.yaml"
+            def rmyaml= "rm -rf *.yaml"
+            sshagent(['k8_master']) {
+              sh "ssh -o StrictHostKeyChecking=no devops@$ip ${rmyaml}"
+              sh "ssh -o StrictHostKeyChecking=no devops@$ip ${kompose}"
+            }
+   }
   stage('Frontend-Deployment'){
             def ip="`curl http://169.254.169.254/latest/meta-data/public-ipv4`"
             def kubectl_redis_frontend= "sudo kubectl create -f /home/devops/frontend-deployment.yaml"   
